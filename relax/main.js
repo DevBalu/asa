@@ -3,122 +3,102 @@
 var c = document.getElementById("c");
 var ctx = c.getContext("2d");
 
-var xc = 1;
-var yc = 100;
-var activeX = "";
-var activeY = "";
+var results = [];
 
+// genering count of points
+function nrPoints(nr){
+	for(var i = 0; i < nr; i++){
+		var obj = {
+			'x': Math.floor(Math.random() * c.width),
+			'y': Math.floor(Math.random() * c.height),
+			'radius': Math.floor(Math.random() * 7),
+			'activex' : "",
+			'activeY' : ""
+		}
 
-
-// 
-var results = [
-	{
-		'x': Math.random() * 50,
-		'y': Math.random() * 60 
-	},
-	{
-		'x': Math.random() * 40,
-		'y': Math.random() * 70
+		results.push(obj);
 	}
-];
-
-
-function draw(x, y){
-	ctx.beginPath();
-	ctx.arc(x, y, 10,0,2*Math.PI);
-	ctx.fill();
 }
+nrPoints(100);
 
+console.log(results);
 // 
 
 
-function leftToRight(x){
-	ctx.clearRect(0, 0, c.width, c.height);
-
+function draw(x, y, radius){
 	ctx.beginPath();
-	ctx.arc(x, yc, 10,0,2*Math.PI);
+	ctx.arc(x, y, radius,0,2*Math.PI);
 	ctx.fill();
-
-	xc++;
 }
 
-function rightToLeft(x){
-	ctx.clearRect(0, 0, c.width, c.height);
-
-	ctx.beginPath();
-	ctx.arc(x, yc, 10,0,2*Math.PI);
-	ctx.fill();
-
-	xc--;
+function leftToRight(arg){
+		arg.x++;
 }
 
-function topToBottom(y){
-	ctx.clearRect(0, 0, c.width, c.height);
-
-	ctx.beginPath();
-	ctx.arc(xc, y, 10,0,2*Math.PI);
-	ctx.fill();
-
-	yc++;
+function rightToLeft(arg){
+		arg.x--;
 }
 
-function bottomToTop(y){
-	ctx.clearRect(0, 0, c.width, c.height);
-
-	ctx.beginPath();
-	ctx.arc(xc, y, 10,0,2*Math.PI);
-	ctx.fill();
-
-	yc--;
+function topToBottom(arg){
+		arg.y++;
 }
 
+function bottomToTop(arg){
+		arg.y--;
+}
 
 
 setInterval(function(){
 	(function(){
-// horizontal
-		if(xc != 0 && xc != c.width && activeX != 'right' || activeX == 'left'){
-			leftToRight(xc);
-			if(xc == c.width){
-				activeX = 'right';
+
+		for(var i = 0; i < results.length; i++){
+			// horizontal
+			if(results[i].x != 0 && results[i].x != c.width && results[i].activeX != 'right' || results[i].activeX == 'left'){
+				leftToRight(results[i]);
+				if(results[i].x == c.width){
+					results[i].activeX = 'right';
+				}
 			}
+
+			if (results[i].activeX == 'right'){
+				results[i].activeX = 'right';
+				rightToLeft(results[i]);
+
+				if(results[i].x == 0){
+					results[i].activeX = "left";
+				}
+			}
+			// vertical
+			if(results[i].y != 0 && results[i].y != c.height && results[i].activeY != 'bottom' || results[i].activeY == 'top'){
+				topToBottom(results[i]);
+				if(results[i].y == c.height){
+					results[i].activeY = 'bottom';
+				}
+			}
+
+			if (results[i].activeY == 'bottom'){
+				bottomToTop(results[i]);
+
+				if(results[i].y == 0){
+					results[i].activeY = "top";
+				}
+			}
+
 		}
 
-		if (activeX == 'right'){
-			activeX = 'right';
-			rightToLeft(xc);
-
-			if(xc == 0){
-				activeX = "left";
-			}
-		}
-// vertical
-		if(yc != 0 && yc != c.height && activeY != 'bottom' || activeY == 'top'){
-			topToBottom(yc);
-			if(yc == c.height){
-				activeY = 'bottom';
-			}
-		}
-
-		if (activeY == 'bottom'){
-			bottomToTop(yc);
-
-			if(yc == 0){
-				activeY = "top";
-			}
-		}
 
 	})();
 
-}, .5);
+}, 3);
 
 
-function test(arr){
+function drawAllPoints(arr){
 	for(var i = 0; i < arr.length; i++){
-		draw(arr[i].x, arr[i].y);
+		draw(arr[i].x, arr[i].y, arr[i].radius);
 	}
 }
 
-
-
-test(results);
+setInterval(function(){
+	ctx.clearRect(0, 0, c.width, c.height);
+	drawAllPoints(results);
+}, 5);
