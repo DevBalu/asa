@@ -1,0 +1,12 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:OrdersController:allOrders{% endblock %}
+
+{% block body %}
+<h1>Welcome to the OrdersController:allOrders page</h1>
+
+    {% for res in results %}
+        {{ res.modofcar }} <br>
+    {% endfor %}
+
+{% endblock %}

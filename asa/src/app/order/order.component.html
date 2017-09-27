@@ -1,0 +1,30 @@
+<div id="order">
+	<div class="container">
+		<h1 class="text-center">
+			ORDER FORM
+		</h1>
+		<form #form="ngForm" (ngSubmit)="submitForm(form.value)">
+			<div class="form-group">
+
+				<label for="brandCar">Brand of Car</label>
+				<input class="form-control" name="brandCar" id="brandCar" ngModel minlength="5" maxlength="30" required #brandCar="ngModel">
+
+				<div *ngIf="brandCar.errors && (brandCar.dirty || brandCar.touched)">
+					<div [hidden]="!brandCar.errors.required">
+						Field Brand of Car is required!
+					</div>
+					<div [hidden]="!brandCar.errors.minlength">
+						Text must be at least 5 characters long.
+					</div>
+					<div [hidden]="!brandCar.errors.maxlength">
+						Text cannot be more than 30 characters long.
+					</div>
+				</div>
+
+			</div>
+			<button type="submit" class="btn">save order</button>
+		</form>
+	</div>
+
+</div>
+

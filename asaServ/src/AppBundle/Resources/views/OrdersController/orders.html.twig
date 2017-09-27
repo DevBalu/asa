@@ -1,0 +1,15 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:OrdersController:orders{% endblock %}
+
+{% block body %}
+<h1>Welcome to the OrdersController:orders page </h1>
+
+
+    {% for req in arrReq %}
+            <h1>{{ req }}</h1>
+    {% endfor %}
+
+
+    {{ dump(arrReq) }}
+{% endblock %}
