@@ -8,11 +8,13 @@ import { HttpModule } from '@angular/http';
 
 import { OrderComponent } from './order/order.component';
 import { ToServService } from './to-serv.service';
+import { AllOrdersComponent } from './all-orders/all-orders.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    OrderComponent
+    OrderComponent,
+    AllOrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -23,6 +25,10 @@ import { ToServService } from './to-serv.service';
             path: 'order',
             component: OrderComponent
         },
+        {
+            path: 'allOrders',
+            component: AllOrdersComponent
+        }
     ])
   ],
   providers: [ToServService],

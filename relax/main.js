@@ -11,15 +11,42 @@ function nrPoints(nr){
 		var obj = {
 			'x': Math.floor(Math.random() * c.width),
 			'y': Math.floor(Math.random() * c.height),
-			'radius': Math.floor(Math.random() * 7),
-			'activex' : "",
+			'radius': Math.floor(Math.random() * 5),
+			'activeX' : "",
 			'activeY' : ""
 		}
+
+		if(i%5 == 0){
+			obj.activeX = "left";
+		}else{
+			obj.activeX = "right";
+		}
+
+		if(i%3 == 1){
+			obj.activeY = "top";
+		}else{
+			obj.activeY = "bottom";
+		}
+
+		// switch (i%3) {
+		// 	case 0:
+		// 		obj.activeX = "left";
+		// 		obj.activeY = "top";
+		// 	case 1:
+		// 		obj.activeX = "right";
+		// 		obj.activeY = "bottom";
+		// 	case 2:
+		// 		obj.activeX = "right";
+		// 		obj.activeY = "top";
+		// 	case 3:
+		// 		obj.activeX = "left";
+		// 		obj.activeY = "bottom";
+		// }
 
 		results.push(obj);
 	}
 }
-nrPoints(100);
+nrPoints(200);
 
 console.log(results);
 // 
@@ -53,7 +80,7 @@ setInterval(function(){
 
 		for(var i = 0; i < results.length; i++){
 			// horizontal
-			if(results[i].x != 0 && results[i].x != c.width && results[i].activeX != 'right' || results[i].activeX == 'left'){
+			if(/*results[i].x != 0 && results[i].x != c.width && results[i].activeX != 'right' || */results[i].activeX == 'left'){
 				leftToRight(results[i]);
 				if(results[i].x == c.width){
 					results[i].activeX = 'right';
@@ -69,7 +96,7 @@ setInterval(function(){
 				}
 			}
 			// vertical
-			if(results[i].y != 0 && results[i].y != c.height && results[i].activeY != 'bottom' || results[i].activeY == 'top'){
+			if(/*results[i].y != 0 && results[i].y != c.height && results[i].activeY != 'bottom' || */results[i].activeY == 'top'){
 				topToBottom(results[i]);
 				if(results[i].y == c.height){
 					results[i].activeY = 'bottom';
@@ -89,7 +116,7 @@ setInterval(function(){
 
 	})();
 
-}, 3);
+}, 13);
 
 
 function drawAllPoints(arr){
@@ -101,4 +128,4 @@ function drawAllPoints(arr){
 setInterval(function(){
 	ctx.clearRect(0, 0, c.width, c.height);
 	drawAllPoints(results);
-}, 5);
+}, 16);

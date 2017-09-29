@@ -8,6 +8,7 @@ use AppBundle\Entity\ordersEntity;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class OrdersControllerController extends Controller
 {
@@ -17,22 +18,19 @@ class OrdersControllerController extends Controller
     public function newOrderAction(Request $request)
     {
 
-        $arrReq = ['x'=> "vasea"];
-
         if($content = $request->getContent()){
-            $arrReq = $content;
+            $em = $this->getDoctrine()->getManager();
+
+            $newOrder = new ordersEntity();
+            $newOrder->setModofcar('string');
+            $em->persist($newOrder);
+
+            $em->flush();
         }
 
-        $em = $this->getDoctrine()->getManager();
-
-        $newOrder = new ordersEntity();
-        $newOrder->setModofcar('string');
-        $em->persist($newOrder);
-
-        $em->flush();
-        return $this->render('AppBundle:OrdersController:orders.html.twig', array(
-            'arrReq' => $arrReq
-        ));
+//        return $this->render('AppBundle:OrdersController:orders.html.twig', array(
+//            'arrReq' => $arrReq
+//        ));
     }
 
     /**
@@ -43,10 +41,19 @@ class OrdersControllerController extends Controller
         $repository = $this->getDoctrine()->getRepository(ordersEntity::class);
         $results = $repository->findAll();
 
+        $arrayCollection = [];
+        foreach ($results as $item){
+            $arrayCollection[] = [
+                'Model Of car'=> $item->getModofcar()
+            ];
+        }
 
-        return $this->render('AppBundle:OrdersController:all_orders.html.twig', array(
-            'results' => $results
-        ));
+        return new JsonResponse($arrayCollection);
+
+//        return $this->render('AppBundle:OrdersController:all_orders.html.twig', array(
+//            'results' => $results
+//        ));
+
     }
 
 }
