@@ -46,7 +46,7 @@ function nrPoints(nr){
 		results.push(obj);
 	}
 }
-nrPoints(200);
+nrPoints(10);
 
 console.log(results);
 // 
@@ -122,6 +122,18 @@ setInterval(function(){
 function drawAllPoints(arr){
 	for(var i = 0; i < arr.length; i++){
 		draw(arr[i].x, arr[i].y, arr[i].radius);
+
+		let radX = arr[i].x + 20;
+
+		for(let j = 0; j < arr.length; j++){
+			if(arr[j].x < radX){
+				ctx.beginPath();
+				ctx.moveTo(arr[i].x, arr[i].y);
+				ctx.lineTo(arr[j].x,arr[j].y);
+				ctx.stroke();
+			}
+		}
+
 	}
 }
 
