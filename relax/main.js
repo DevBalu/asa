@@ -27,22 +27,7 @@ function nrPoints(nr){
 		}else{
 			obj.activeY = "bottom";
 		}
-
-		// switch (i%3) {
-		// 	case 0:
-		// 		obj.activeX = "left";
-		// 		obj.activeY = "top";
-		// 	case 1:
-		// 		obj.activeX = "right";
-		// 		obj.activeY = "bottom";
-		// 	case 2:
-		// 		obj.activeX = "right";
-		// 		obj.activeY = "top";
-		// 	case 3:
-		// 		obj.activeX = "left";
-		// 		obj.activeY = "bottom";
-		// }
-
+ 
 		results.push(obj);
 	}
 }
@@ -59,19 +44,19 @@ function draw(x, y, radius){
 }
 
 function leftToRight(arg){
-		arg.x++;
+		arg.x+=3;
 }
 
 function rightToLeft(arg){
-		arg.x--;
+		arg.x-= 3;
 }
 
 function topToBottom(arg){
-		arg.y++;
+		arg.y+= 4;
 }
 
 function bottomToTop(arg){
-		arg.y--;
+		arg.y-= 4;
 }
 
 
@@ -80,9 +65,9 @@ setInterval(function(){
 
 		for(var i = 0; i < results.length; i++){
 			// horizontal
-			if(/*results[i].x != 0 && results[i].x != c.width && results[i].activeX != 'right' || */results[i].activeX == 'left'){
+			if(results[i].activeX == 'left'){
 				leftToRight(results[i]);
-				if(results[i].x == c.width){
+				if(results[i].x == c.width || results[i].x > c.width){
 					results[i].activeX = 'right';
 				}
 			}
@@ -91,14 +76,14 @@ setInterval(function(){
 				results[i].activeX = 'right';
 				rightToLeft(results[i]);
 
-				if(results[i].x == 0){
+				if(results[i].x == 0 || results[i].x < 0){
 					results[i].activeX = "left";
 				}
 			}
 			// vertical
-			if(/*results[i].y != 0 && results[i].y != c.height && results[i].activeY != 'bottom' || */results[i].activeY == 'top'){
+			if(results[i].activeY == 'top'){
 				topToBottom(results[i]);
-				if(results[i].y == c.height){
+				if(results[i].y == c.height || results[i].y > c.height){
 					results[i].activeY = 'bottom';
 				}
 			}
@@ -106,7 +91,7 @@ setInterval(function(){
 			if (results[i].activeY == 'bottom'){
 				bottomToTop(results[i]);
 
-				if(results[i].y == 0){
+				if(results[i].y == 0 || results[i].y < 0){
 					results[i].activeY = "top";
 				}
 			}
@@ -124,14 +109,14 @@ function drawAllPoints(arr){
 		draw(arr[i].x, arr[i].y, arr[i].radius);
 
 		let radX = arr[i].x + 20;
+		ctx.beginPath();
+		ctx.moveTo(arr[i + 1].x, arr[i + 1].y);
+		ctx.lineTo(arr[i].x,arr[i].y);
+		ctx.stroke();
 
 		for(let j = 0; j < arr.length; j++){
-			if(arr[j].x < radX){
-				ctx.beginPath();
-				ctx.moveTo(arr[i].x, arr[i].y);
-				ctx.lineTo(arr[j].x,arr[j].y);
-				ctx.stroke();
-			}
+			// if(arr[j].x > radX){
+			// }
 		}
 
 	}

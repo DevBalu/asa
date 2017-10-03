@@ -9,12 +9,14 @@ import { HttpModule } from '@angular/http';
 import { OrderComponent } from './order/order.component';
 import { ToServService } from './to-serv.service';
 import { AllOrdersComponent } from './all-orders/all-orders.component';
+import { OrderExtComponent } from './order-ext/order-ext.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     OrderComponent,
-    AllOrdersComponent
+    AllOrdersComponent,
+    OrderExtComponent
   ],
   imports: [
     BrowserModule,
@@ -28,6 +30,10 @@ import { AllOrdersComponent } from './all-orders/all-orders.component';
         {
             path: 'allOrders',
             component: AllOrdersComponent
+        },
+        {
+            path: 'orderExt/',
+            component: OrderExtComponent
         }
     ])
   ],

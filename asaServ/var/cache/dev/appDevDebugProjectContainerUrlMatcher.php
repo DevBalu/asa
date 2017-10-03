@@ -118,13 +118,26 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
         }
 
         // app_orderscontroller_neworder
-        if ('/newOrder' === $pathinfo) {
-            return array (  '_controller' => 'AppBundle\\Controller\\OrdersControllerController::newOrderAction',  '_route' => 'app_orderscontroller_neworder',);
+        if (0 === strpos($pathinfo, '/newOrder') && preg_match('#^/newOrder/(?P<nameCar>[^/]++)/?$#s', $pathinfo, $matches)) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'app_orderscontroller_neworder');
+            }
+
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'app_orderscontroller_neworder')), array (  '_controller' => 'AppBundle\\Controller\\OrdersControllerController::newOrderAction',));
         }
 
         // app_orderscontroller_allorders
         if ('/allOrders' === $pathinfo) {
             return array (  '_controller' => 'AppBundle\\Controller\\OrdersControllerController::allOrdersAction',  '_route' => 'app_orderscontroller_allorders',);
+        }
+
+        // find_order
+        if (0 === strpos($pathinfo, '/rmOrder') && preg_match('#^/rmOrder/(?P<idOrder>[^/]++)/?$#s', $pathinfo, $matches)) {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'find_order');
+            }
+
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'find_order')), array (  '_controller' => 'AppBundle\\Controller\\OrdersControllerController::removeOrderAction',));
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();

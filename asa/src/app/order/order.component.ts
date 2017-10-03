@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { ToServService } from '../to-serv.service';
 import { Http, Response } from '@angular/http';
+// import {empty} from "rxjs/Observer";
 @Component({
     selector: 'app-order',
     templateUrl: './order.component.html',
@@ -9,20 +10,27 @@ import { Http, Response } from '@angular/http';
 })
 
 export class OrderComponent {
+  public http: Http;
+
 
   submitForm(form: any): void {
-        this._toServ.newOrder(form.brandCar);
+      if(form.brandCar != '') {
+          let url  = 'http://127.0.0.1:8000/newOrder/' + form.brandCar + '/';
 
-        if (form.brandCar != ''){
-            console.log(form.brandCar);
-            alert('Data successfully saved!');
-         }else {
-            alert('Fields are not filled');
-         }
+          this.http.get(url).subscribe(
+              (data) => {
+                console.log(data);
+              }, (err) => {
+                  console.log('Something went wrong');
+              }
+          );
+
+      }
   }
 
-  constructor(private _toServ: ToServService, private http: Http) {
 
+  constructor(_toServ: ToServService, http: Http) {
+        this.http = http;
   }
 
 }
