@@ -10,7 +10,7 @@ class Point{
 			'x': Math.floor(Math.random() * 3)-1,
 			'y': Math.floor(Math.random() * 3)-1
 		};
-		this.speed = Math.floor(Math.random() * 2);
+		this.speed = Math.floor(Math.random() * 2)+ 1;
 	}
 }
 
@@ -24,32 +24,19 @@ function countPart(nr) {
 	return arrPart;
 }
 
-function updateX(point, mth){
-	if(mth == 1){
-		point.x = point.x + point.speed + point.vector.x;
-	}
-
-	if(mth == 0){
-		point.x = point.x - point.speed - point.vector.x;
-	}
+function updateX(point){
+	point.x = point.x + point.speed + point.vector.x;
 }
 
-function updateY(point, mth){
-	if(mth == 1){
-		point.y = point.y + point.speed + point.vector.y;
-	}
-	if(mth == 0){
-		point.y = point.y - point.speed - point.vector.y;
-	}
+function updateY(point){
+	point.y = point.y + point.speed + point.vector.y;
 }
-
 
 function show(point){
 	ctx.beginPath();
 	ctx.arc(point.x, point.y, point.radius,0,2*Math.PI);
 	ctx.fill();
 }
-
 
 function drawPart(nr){
 	// gen arr with particles
@@ -61,25 +48,24 @@ function drawPart(nr){
 		for(var i = 0; i < arr.length; i++){
 
 			if(arr[i].x == c.width || arr[i].x > c.width){
-				arr[i].vector.x-= 3;
-				updateX(arr[i], 0);
-			}else if(arr[i].x == 0 || arr[i].x < 0){
-				arr[i].vector.x+= 3
-				updateX(arr[i], 1);
-			}else{
-				updateX(arr[i], 1);
+				arr[i].vector.x = -1;
+				updateX(arr[i]);
+			}else if(arr[i].x == 0 || arr[i].x < c.width){
+				arr[i].vector.x = 1;
+				updateX(arr[i]);
+			}else {
+				updateX(arr[i]);
 			}
 
 			if(arr[i].y == c.height || arr[i].y > c.height){
-				updateY(arr[i], 0);
-				arr[i].vector.y -= 3;
+				arr[i].vector.y = -1;
+				updateY(arr[i]);
 			}else if(arr[i].y == 0 || arr[i].y < 0){
-				arr[i].vector.y+=3
-				updateY(arr[i], 1);
+				arr[i].vector.y = 1;
+				updateY(arr[i]);
 			}else{
-				updateY(arr[i], 1);
+				updateY(arr[i]);
 			}
-
 			show(arr[i]);
 		}
 
