@@ -26,7 +26,7 @@ function countPart(nr) {
 }
 
 function update(point){
-	if(!(point.x >= 0)){
+	if(!(point.x > 0)){
 		point.vector.x = 1;
 	}
 
@@ -34,23 +34,23 @@ function update(point){
 		point.vector.x = -1;
 	}
 
-	if(!(point.y >= 0)){
-		point.vector.y = 1;
-	}
+	// if(!(point.y >= 0)){
+	// 	point.vector.y = 1;
+	// }
 
-	if(point.y >= c.height){
-		point.vector.y = -1;
-	}
+	// if(point.y >= c.height){
+	// 	point.vector.y = -1;
+	// }
 
 	point.x = point.x + point.speed + point.vector.x;
 	point.y = point.y + point.speed + point.vector.y;
 }
 
 function show(point){
-	// var stoped = point.speed + point.vector.x;
-	// if (stoped <= 0) {
-	// 	point.vector.x = Math.floor(Math.random() * 3)-1;
-	// }
+	var stoped = point.speed + point.vector.x;
+	if (stoped <= 0) {
+		point.vector.x = Math.floor(Math.random() * 3)-1;
+	}
 
 	ctx.beginPath();
 	ctx.arc(point.x, point.y, point.radius,0,2*Math.PI);
@@ -61,6 +61,7 @@ function show(point){
 	function motion(nr){
 		var arr = countPart(nr);
 		setInterval(function(){
+			console.log(arr.vector);
 			ctx.clearRect(0, 0, c.width, c.height);
 			for(let i = 0; i < arr.length; i++){
 				console.log(arr[i].vector.x);
@@ -70,7 +71,7 @@ function show(point){
 
 		}, .5)
 	}
-	motion(1);
+	motion(20);
 
 /**/
 
