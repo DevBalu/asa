@@ -65,35 +65,33 @@ function show(point){
 	ctx.fill();
 }
 
+/*-------------Draw line---------------*/
 function drawLine(ps, pointG){
 
-// test
-	// function approximation(pointG, pointC){
-	// 	if(pointC.x < pointG.x){
-	// 		var frLeft = pointG - 100;
-	// 		return  pointG.x - pointC.x * 100 / frLeft;
-	// 	}else{
-	// 		var frRight = pointG + 100;
-	// 		return  pointG.x - pointC.x * 100 / frRight;
-	// 	}
-	// }
-
-// test
-
-	var leftX = pointG.x - 100;
-	var rightX = pointG.x + 100;
-	var leftY = pointG.y - 100;
-	var rightY = pointG.y + 100;
-
 	for(var j = 0; j < ps.length; j++){
-		// var calc = ((pointG.x - ps[j].x) * 100 )/ (pointG.x - (pointG - 100));
+		var a = pointG.x - ps[j].x;
+		var b = pointG.y - ps[j].y;
+		var c = Math.sqrt( a*a + b*b );
 
-		if(ps[j].x > leftX && ps[j].x < rightX & ps[j].y > leftY && ps[j].y < rightY){
-
+		if (c < 100) {
 			ctx.beginPath();
 			ctx.moveTo(pointG.x, pointG.y);
 			ctx.lineTo(ps[j].x, ps[j].y);
-			ctx.lineWidth = .2;
+
+			if(c < 100){
+				ctx.lineWidth = .2;
+			}else if (c < 80){
+				ctx.lineWidth = 1;
+			}else if (c < 60){
+				ctx.lineWidth = 1;
+			}else if (c < 40){
+				ctx.lineWidth = .8;
+			}else if (c < 20){
+				ctx.lineWidth = 1;
+			}else{
+				ctx.lineWidth = .2;
+			}
+
 			ctx.stroke();
 		}
 	}
